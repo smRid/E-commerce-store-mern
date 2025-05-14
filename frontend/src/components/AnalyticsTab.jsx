@@ -11,6 +11,8 @@ const AnalyticsTab = () => {
 		totalSales: 0,
 		totalRevenue: 0,
 	});
+
+
 	const [isLoading, setIsLoading] = useState(true);
 	const [dailySalesData, setDailySalesData] = useState([]);
 
@@ -29,6 +31,7 @@ const AnalyticsTab = () => {
 
 		fetchAnalyticsData();
 	}, []);
+
 
 	if (isLoading) {
 		return <div>Loading...</div>;
@@ -99,6 +102,7 @@ const AnalyticsTab = () => {
 	);
 };
 export default AnalyticsTab;
+
 
 const AnalyticsCard = ({ title, value, icon: Icon, color }) => (
 	<motion.div
