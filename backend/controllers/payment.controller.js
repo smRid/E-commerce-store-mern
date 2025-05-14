@@ -76,7 +76,14 @@ export const createCheckoutSession = async (req, res) => {
 export const checkoutSuccess = async (req, res) => {
 	try {
 		const { sessionId } = req.body;
+		
+		if (!sessionId) {
+			return res.status(400).json({ message: "Session ID is required" });
+		}
+		
+		console.log("Retrieving checkout session:", sessionId);
 		const session = await stripe.checkout.sessions.retrieve(sessionId);
+		console.log("Session retrieved:", session.id, "Status:", session.payment_status);
 
 		if (session.payment_status === "paid") {
 			if (session.metadata.couponCode) {
@@ -110,10 +117,21 @@ export const checkoutSuccess = async (req, res) => {
 				success: true,
 				message: "Payment successful, order created, and coupon deactivated if used.",
 				orderId: newOrder._id,
-			});
+			});		} else {
+			console.log("Payment not successful for session:", sessionId);
+			res.status(400).json({ message: "Payment not successful. Please contact support." });
 		}
 	} catch (error) {
 		console.error("Error processing successful checkout:", error);
+		
+		// Check if it's a Stripe invalid request error (session not found)
+		if (error.type === 'StripeInvalidRequestError') {
+			return res.status(400).json({ 
+				message: "Invalid checkout session. The session may have expired or been already processed.", 
+				error: error.message 
+			});
+		}
+		
 		res.status(500).json({ message: "Error processing successful checkout", error: error.message });
 	}
 };
@@ -140,5 +158,4 @@ async function createNewCoupon(userId) {
 	await newCoupon.save();
 
 	return newCoupon;
-	
 }

@@ -1,27 +1,28 @@
-import mongoose from 'mongoose';
-import bcrypt from 'bcryptjs';
+import mongoose from "mongoose";
+import bcrypt from "bcryptjs";
 
-const userSchema = new mongoose.Schema({
-    name: {
-        type: String,
-        required: [true, 'Name is required'],
-    },
-    email: {
-        type: String,
-        required: [true, 'Email is required'],
-        unique: true,
-        lowercase: true,
-        trim: true,
-    },
-    password: {
-        type: String,
-        required: [true, 'Password is required'],
-        minlength: [6, 'Password must be at least 6 characters long'],
-    },
-    cartItems: [
-		{
-			quantity:{
-				    type: Number,
+const userSchema = new mongoose.Schema(
+	{
+		name: {
+			type: String,
+			required: [true, "Name is required"],
+		},
+		email: {
+			type: String,
+			required: [true, "Email is required"],
+			unique: true,
+			lowercase: true,
+			trim: true,
+		},
+		password: {
+			type: String,
+			required: [true, "Password is required"],
+			minlength: [6, "Password must be at least 6 characters long"],
+		},
+		cartItems: [
+			{
+				quantity: {
+					type: Number,
 					default: 1,
 				},
 				product: {
@@ -30,17 +31,16 @@ const userSchema = new mongoose.Schema({
 				},
 			},
 		],
-        role: {
+		role: {
 			type: String,
 			enum: ["customer", "admin"],
 			default: "customer",
 		},
-},
-
-    //createdAt and updatedAt fields
-{
-    timestamps: true,
-});
+	},
+	{
+		timestamps: true,
+	}
+);
 
 // Pre-save hook to hash password before saving to database
 userSchema.pre("save", async function (next) {

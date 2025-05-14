@@ -4,6 +4,3 @@ import dotenv from "dotenv";
 dotenv.config();
 
 export const redis = new Redis(process.env.UPSTASH_REDIS_URL);
-
-//KEY VALUE STORE
-await redis.set("foo", "bar");
