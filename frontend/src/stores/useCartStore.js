@@ -42,9 +42,18 @@ export const useCartStore = create((set, get) => ({
 			set({ cart: [] });
 			toast.error(error.response.data.message || "An error occurred");
 		}
-	},
-	clearCart: async () => {
-		set({ cart: [], coupon: null, total: 0, subtotal: 0 });
+	},	clearCart: async () => {
+		try {
+			// Clear cart in the backend
+			await axios.delete("/cart");
+			// Clear cart in local state
+			set({ cart: [], coupon: null, total: 0, subtotal: 0, isCouponApplied: false });
+			// Don't show a toast here as PurchaseSuccessPage will handle it
+		} catch (error) {
+			console.error("Error clearing cart:", error);
+			// Still clear local state even if API call fails
+			set({ cart: [], coupon: null, total: 0, subtotal: 0, isCouponApplied: false });
+		}
 	},
 	addToCart: async (product) => {
 		try {
