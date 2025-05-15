@@ -6,6 +6,7 @@ const GiftCouponCard = () => {
 	const [userInputCode, setUserInputCode] = useState("");
 	const { coupon, isCouponApplied, applyCoupon, getMyCoupon, removeCoupon } = useCartStore();
 
+	// Fetch the coupon when the component mounts
 	useEffect(() => {
 		getMyCoupon();
 	}, [getMyCoupon]);
@@ -23,7 +24,7 @@ const GiftCouponCard = () => {
 		await removeCoupon();
 		setUserInputCode("");
 	};
-
+	// Reset the user input code when the coupon is removed
 	return (
 		<motion.div
 			className='space-y-4 rounded-lg border border-gray-700 bg-gray-800 p-4 shadow-sm sm:p-6'
@@ -80,7 +81,7 @@ const GiftCouponCard = () => {
 					</motion.button>
 				</div>
 			)}
-
+			
 			{coupon && (
 				<div className='mt-4'>
 					<h3 className='text-lg font-medium text-gray-300'>Your Available Coupon:</h3>
