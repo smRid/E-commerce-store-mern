@@ -12,10 +12,14 @@ import analyticsRoutes from "./routes/analytics.route.js";
 
 import { connectDB } from "./lib/db.js";
 
+import job from './config/cron.js';
+
 dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 5001; // Changed from 5000 to 5001
+
+if (process.env.NODE_ENV === 'production') job.start();
 
 const __dirname = path.resolve();
 
