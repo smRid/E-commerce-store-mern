@@ -9,7 +9,7 @@ A full-featured and modern E-Commerce web application built with the MERN stack 
 
 ![Dashboard Preview](frontend/public/preview.png) 
 --
-🌍 Live Demo - https://shopzi-app.onrender.com/
+🌍 Live Demo - https://shopzi.onrender.com/
 
 ---
 
